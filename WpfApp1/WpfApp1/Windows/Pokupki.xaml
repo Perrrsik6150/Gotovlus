@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfApp1.Windows.Pokupki"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Windows"
+        mc:Ignorable="d"
+        Title="Pokupki" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="311*"/>
+            <RowDefinition Height="55*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Style="{StaticResource StandatrText}">Покупки</TextBlock>
+        </StackPanel>
+  
+        <StackPanel Grid.Row="1">
+         <DataGrid Height="262" Name="PokupkiGrid" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding IDPokupki}" Header="Номер покупки" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Product.NameProduct}" Header="Продукт" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Soctrudnic.NameSotrudnic}" Header="Сотрудник" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding ItogPrise}" Header="Итоговая сумма" Width="100"></DataGridTextColumn>
+                </DataGrid.Columns>
+         </DataGrid>
+            <StackPanel Height="45" Orientation="Horizontal" Style="{StaticResource StandatrStakPanel}" >
+                <Button Style="{StaticResource Standatrbtn}" Click="Delete"> Удалить</Button>
+                <Button Style="{StaticResource Standatrbtn}" Click="Dobavit"> Добавить</Button>
+          </StackPanel>
+        </StackPanel >
+        
+        <StackPanel Grid.Row="1" Margin="665,311,4,0" Grid.RowSpan="2">
+            <Button Style="{StaticResource Standatrbtn}" Click="Vernut">Назад</Button>
+        </StackPanel>
+    </Grid>
+</Window>

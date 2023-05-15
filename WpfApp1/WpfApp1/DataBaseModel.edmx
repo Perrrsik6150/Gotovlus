@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ShopModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Pokupka">
+          <Key>
+            <PropertyRef Name="IDPokupki" />
+          </Key>
+          <Property Name="IDPokupki" Type="int" Nullable="false" />
+          <Property Name="IDSotrudnik" Type="int" />
+          <Property Name="IDProduct" Type="int" />
+          <Property Name="ItogPrise" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="IDProduct" />
+          </Key>
+          <Property Name="IDProduct" Type="int" Nullable="false" />
+          <Property Name="NameProduct" Type="nvarchar" MaxLength="50" />
+          <Property Name="Prise" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="Soctrudnic">
+          <Key>
+            <PropertyRef Name="IDSotrudnika" />
+          </Key>
+          <Property Name="IDSotrudnika" Type="int" Nullable="false" />
+          <Property Name="NameSotrudnic" Type="nvarchar" MaxLength="50" />
+          <Property Name="FamiliyaSotrudnic" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="IDType" />
+          </Key>
+          <Property Name="IDType" Type="int" Nullable="false" />
+          <Property Name="NameType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Pokupka_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IDProduct" />
+            </Principal>
+            <Dependent Role="Pokupka">
+              <PropertyRef Name="IDProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokupka_Soctrudnic">
+          <End Role="Soctrudnic" Type="Self.Soctrudnic" Multiplicity="0..1" />
+          <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Soctrudnic">
+              <PropertyRef Name="IDSotrudnika" />
+            </Principal>
+            <Dependent Role="Pokupka">
+              <PropertyRef Name="IDSotrudnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="IDType" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ShopModelContainer">
+          <EntitySet Name="Pokupka" EntityType="Self.Pokupka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Soctrudnic" EntityType="Self.Soctrudnic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Pokupka_Product" Association="Self.FK_Pokupka_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Pokupka" EntitySet="Pokupka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokupka_Soctrudnic" Association="Self.FK_Pokupka_Soctrudnic">
+            <End Role="Soctrudnic" EntitySet="Soctrudnic" />
+            <End Role="Pokupka" EntitySet="Pokupka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Type" Association="Self.FK_Product_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pokupka">
+          <Key>
+            <PropertyRef Name="IDPokupki" />
+          </Key>
+          <Property Name="IDPokupki" Type="Int32" Nullable="false" />
+          <Property Name="IDSotrudnik" Type="Int32" />
+          <Property Name="IDProduct" Type="Int32" />
+          <Property Name="ItogPrise" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Pokupka_Product" FromRole="Pokupka" ToRole="Product" />
+          <NavigationProperty Name="Soctrudnic" Relationship="Self.FK_Pokupka_Soctrudnic" FromRole="Pokupka" ToRole="Soctrudnic" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="IDProduct" />
+          </Key>
+          <Property Name="IDProduct" Type="Int32" Nullable="false" />
+          <Property Name="NameProduct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prise" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="Pokupka" Relationship="Self.FK_Pokupka_Product" FromRole="Product" ToRole="Pokupka" />
+          <NavigationProperty Name="Type1" Relationship="Self.FK_Product_Type" FromRole="Product" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Soctrudnic">
+          <Key>
+            <PropertyRef Name="IDSotrudnika" />
+          </Key>
+          <Property Name="IDSotrudnika" Type="Int32" Nullable="false" />
+          <Property Name="NameSotrudnic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FamiliyaSotrudnic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pokupka" Relationship="Self.FK_Pokupka_Soctrudnic" FromRole="Soctrudnic" ToRole="Pokupka" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="IDType" />
+          </Key>
+          <Property Name="IDType" Type="Int32" Nullable="false" />
+          <Property Name="NameType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Type" FromRole="Type" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Pokupka_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IDProduct" />
+            </Principal>
+            <Dependent Role="Pokupka">
+              <PropertyRef Name="IDProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokupka_Soctrudnic">
+          <End Role="Soctrudnic" Type="Self.Soctrudnic" Multiplicity="0..1" />
+          <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Soctrudnic">
+              <PropertyRef Name="IDSotrudnika" />
+            </Principal>
+            <Dependent Role="Pokupka">
+              <PropertyRef Name="IDSotrudnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="IDType" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ShopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Pokupka" EntityType="Self.Pokupka" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Soctrudnic" EntityType="Self.Soctrudnic" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Type" EntityType="Self.Type" />
+          <AssociationSet Name="FK_Pokupka_Product" Association="Self.FK_Pokupka_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Pokupka" EntitySet="Pokupka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokupka_Soctrudnic" Association="Self.FK_Pokupka_Soctrudnic">
+            <End Role="Soctrudnic" EntitySet="Soctrudnic" />
+            <End Role="Pokupka" EntitySet="Pokupka" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Type" Association="Self.FK_Product_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ShopModelContainer" CdmEntityContainer="ShopEntities">
+          <EntitySetMapping Name="Pokupka">
+            <EntityTypeMapping TypeName="ShopModel.Pokupka">
+              <MappingFragment StoreEntitySet="Pokupka">
+                <ScalarProperty Name="IDPokupki" ColumnName="IDPokupki" />
+                <ScalarProperty Name="IDSotrudnik" ColumnName="IDSotrudnik" />
+                <ScalarProperty Name="IDProduct" ColumnName="IDProduct" />
+                <ScalarProperty Name="ItogPrise" ColumnName="ItogPrise" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="ShopModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IDProduct" ColumnName="IDProduct" />
+                <ScalarProperty Name="NameProduct" ColumnName="NameProduct" />
+                <ScalarProperty Name="Prise" ColumnName="Prise" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Soctrudnic">
+            <EntityTypeMapping TypeName="ShopModel.Soctrudnic">
+              <MappingFragment StoreEntitySet="Soctrudnic">
+                <ScalarProperty Name="IDSotrudnika" ColumnName="IDSotrudnika" />
+                <ScalarProperty Name="NameSotrudnic" ColumnName="NameSotrudnic" />
+                <ScalarProperty Name="FamiliyaSotrudnic" ColumnName="FamiliyaSotrudnic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ShopModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type">
+            <EntityTypeMapping TypeName="ShopModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="IDType" ColumnName="IDType" />
+                <ScalarProperty Name="NameType" ColumnName="NameType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

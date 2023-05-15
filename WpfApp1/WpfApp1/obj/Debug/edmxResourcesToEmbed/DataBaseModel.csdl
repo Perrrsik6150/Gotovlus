@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Pokupka">
+    <Key>
+      <PropertyRef Name="IDPokupki" />
+    </Key>
+    <Property Name="IDPokupki" Type="Int32" Nullable="false" />
+    <Property Name="IDSotrudnik" Type="Int32" />
+    <Property Name="IDProduct" Type="Int32" />
+    <Property Name="ItogPrise" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Pokupka_Product" FromRole="Pokupka" ToRole="Product" />
+    <NavigationProperty Name="Soctrudnic" Relationship="Self.FK_Pokupka_Soctrudnic" FromRole="Pokupka" ToRole="Soctrudnic" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="IDProduct" />
+    </Key>
+    <Property Name="IDProduct" Type="Int32" Nullable="false" />
+    <Property Name="NameProduct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Prise" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="Int32" />
+    <NavigationProperty Name="Pokupka" Relationship="Self.FK_Pokupka_Product" FromRole="Product" ToRole="Pokupka" />
+    <NavigationProperty Name="Type1" Relationship="Self.FK_Product_Type" FromRole="Product" ToRole="Type" />
+  </EntityType>
+  <EntityType Name="Soctrudnic">
+    <Key>
+      <PropertyRef Name="IDSotrudnika" />
+    </Key>
+    <Property Name="IDSotrudnika" Type="Int32" Nullable="false" />
+    <Property Name="NameSotrudnic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FamiliyaSotrudnic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pokupka" Relationship="Self.FK_Pokupka_Soctrudnic" FromRole="Soctrudnic" ToRole="Pokupka" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="IDType" />
+    </Key>
+    <Property Name="IDType" Type="Int32" Nullable="false" />
+    <Property Name="NameType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Product_Type" FromRole="Type" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Pokupka_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="IDProduct" />
+      </Principal>
+      <Dependent Role="Pokupka">
+        <PropertyRef Name="IDProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pokupka_Soctrudnic">
+    <End Role="Soctrudnic" Type="Self.Soctrudnic" Multiplicity="0..1" />
+    <End Role="Pokupka" Type="Self.Pokupka" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Soctrudnic">
+        <PropertyRef Name="IDSotrudnika" />
+      </Principal>
+      <Dependent Role="Pokupka">
+        <PropertyRef Name="IDSotrudnik" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Type">
+    <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="IDType" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ShopEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Pokupka" EntityType="Self.Pokupka" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+    <EntitySet Name="Soctrudnic" EntityType="Self.Soctrudnic" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Type" EntityType="Self.Type" />
+    <AssociationSet Name="FK_Pokupka_Product" Association="Self.FK_Pokupka_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Pokupka" EntitySet="Pokupka" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pokupka_Soctrudnic" Association="Self.FK_Pokupka_Soctrudnic">
+      <End Role="Soctrudnic" EntitySet="Soctrudnic" />
+      <End Role="Pokupka" EntitySet="Pokupka" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Type" Association="Self.FK_Product_Type">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
